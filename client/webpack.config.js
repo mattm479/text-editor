@@ -24,20 +24,22 @@ module.exports = () => {
       new MiniCssExtractPlugin(),
       new InjectManifest({
         swSrc: './src-sw.js',
-        swDest: 'service-worker.js'
+        swDest: './service-worker.js'
       }),
       new WebpackPwaManifest({
         name: 'Just Another Text Editor',
-        short_name: 'JATE',
-        description: 'Text Editor that can be used on or off line',
-        background_color: '#ffffff',
-        theme_color: '#ffffff',
-        start_url: './',
-        publicPath: './',
+        short_name: 'J.A.T.E',
+        description: 'Takes notes with JavaScript syntax highlighting!',
+        display: 'standalone',
+        background_color: '#225ca3',
+        theme_color: '#225ca3',
+        start_url: '/',
+        fingerprints: false,
+        orientation: 'portrait',
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
-            sizes: [96, 128, 192, 256, 384, 512],
+            size: 96,
             destination: path.join('assets', 'icons'),
             filename: 'logo.png'
           },
@@ -48,11 +50,7 @@ module.exports = () => {
       rules: [
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, 'css-loader']
-        },
-        {
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
-          type: 'asset/resource',
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           test: /\.m?js$/,
