@@ -1,18 +1,24 @@
-let deferredPrompt;
+const butInstall = document.getElementById('buttonInstall');
 
 // Logic for installing the PWA
 window.addEventListener('beforeinstallprompt', (event) => {
-    console.log("Before Install Prompt")
-    deferredPrompt = event;
+    console.log(event);
+    event.preventDefault();
+    window.deferredPrompt = event;
+    butInstall.classList.toggle('hidden', false);
 });
 
-const butInstall = document.getElementById('buttonInstall');
 butInstall.addEventListener('click', async () => {
-    if (deferredPrompt !== null) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            deferredPrompt = null;
-        }
-    }
+    const promptEvent = window.deferredPrompt;
+    console.log(promptEvent);
+    if (!promptEvent) return;
+
+    promptEvent.prompt();
+
+    window.deferredPrompt = null;
+    butInstall.classList.toggle('hidden', true);
+});
+
+window.addEventListener('appinstalled', (event) => {
+    window.deferredPrompt = null;
 });
